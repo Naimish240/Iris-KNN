@@ -4,7 +4,7 @@ import csv
 import random
 import math
 import operator
- 
+
 # Loading the dataset and splitting it into training and testing
 def loadDataset(filename, split, trainingSet=[] , testSet=[]):
 	with open('Iris.csv','r') as file:
@@ -31,16 +31,13 @@ def loadDataset(filename, split, trainingSet=[] , testSet=[]):
 		else:
 			testSet.append(data[x])
 
-
-
-
 # Function to calculate the distance between points
 def euclideanDistance(instance1, instance2, length):
 	distance = 0
 	for x in range(length):
 		distance += pow((instance1[x] - instance2[x]), 2)
 	return math.sqrt(distance)
- 
+
 #Function to find the k nearest neighbour
 def getNeighbors(trainingSet, testInstance, k):
 	distances = []
@@ -65,7 +62,7 @@ def getResponse(neighbors):
 			classVotes[response] = 1
 	sortedVotes = sorted(classVotes.items(), key=operator.itemgetter(1), reverse=True)
 	return sortedVotes[0][0]
- 
+
 # Funciton to calculate accuracy of KNN
 def getAccuracy(testSet, predictions):
 	correct = 0
@@ -73,19 +70,19 @@ def getAccuracy(testSet, predictions):
 		if testSet[x][-1] == predictions[x]:
 			correct += 1
 	return (correct/float(len(testSet))) * 100.0
-	
+
 # Main body
 def main():
 	# prepare data
 	trainingSet=[]
 	testSet=[]
-	split = 0.5 # Atleast 2/3 of dataset for training
+	split = 0.67 # Atleast 2/3 of dataset for training
 	loadDataset('iris.csv', split, trainingSet, testSet)
 	print('Train set: ', len(trainingSet))
 	print('Test set: ', len(testSet))
 	# generate predictions
 	predictions=[]
-	k = 2 # Number of neighbours
+	k = 5 # Number of neighbours
 	for x in range(len(testSet)):
 		neighbors = getNeighbors(trainingSet, testSet[x], k)
 		result = getResponse(neighbors)
